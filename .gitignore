@@ -26,5 +26,4 @@ hs_err_pid*
 # intellij folder
 .idea/
 
-# target folder
-target/
+persistence.xml
