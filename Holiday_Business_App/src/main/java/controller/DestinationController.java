@@ -13,16 +13,14 @@ public class DestinationController {
         this.destinationService = new DestinationService();
     }
 
-    public void insertDestination(Destination destination) {
-        this.destinationService.insertDestination(destination);
+    public String insertDestination(Destination destination) {
+        return this.destinationService.insertDestination(destination);
     }
 
-    public void deleteDestination(Integer destinationId) {
-        if (this.destinationService.deleteDestination(destinationId)) {
-            System.out.println("destination deleted successfully");
-        } else {
-            System.out.println("tzapa: destination not deleted");
-        }
+    public String deleteDestination(Integer destinationId) {
+        if (!this.destinationService.deleteDestination(destinationId))
+            return "Destination not found in database";
+        return "";
     }
 
     public Destination findById(Integer id) {

@@ -24,7 +24,7 @@ public class DestinationRepository {
         em.clear();
     }
 
-    public boolean insertDestination(Destination destination) {
+    public String insertDestination(Destination destination) {
 
         EntityManager em = this.getEntityManager();
 
@@ -37,16 +37,16 @@ public class DestinationRepository {
         catch (RollbackException e) {
             System.out.println("ERROR: name of the destination is not unique");
             em.close();
-            return false;
+            return "Destination already in database";
         }
         catch (PersistenceException e) {
             System.out.println("ERROR: can't persist object that is in db already (hint: update)");
             em.close();
-            return false;
+            return "Use update for this destination";
         }
 
         em.close();
-        return true;
+        return "";
     }
 
     public boolean deleteDestination(Integer destinationId) {

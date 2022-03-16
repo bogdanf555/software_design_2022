@@ -334,16 +334,30 @@ public class AgencyWindow extends JFrame implements ActionListener {
                 this.destinationCountryText.getText(),
                 temperature);
 
-        this.destinationController.insertDestination(destination);
-        updateDestinationTable();
+        String response = this.destinationController.insertDestination(destination);
+
+        if (response.isEmpty())
+            updateDestinationTable();
+        else {
+            JOptionPane.showMessageDialog(this,
+                    response,
+                    "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public void deleteDestination() {
 
         String destinationTitle = destinationNameText.getText();
+
+        if (destinationTitle.isEmpty())
+            return;
+
         List<Destination> destinationList = ((DestinationTableModel) destinationTable.getModel()).getDestinations();
 
-        Destination destination = destinationList.stream().filter(dest -> dest.getName().equals(destinationTitle)).findAny().orElse(null);
+        Destination destination = destinationList.stream()
+                .filter(dest -> dest.getName().equals(destinationTitle))
+                .findAny().orElse(null);
 
         if (destination == null) {
             JOptionPane.showMessageDialog(this,
@@ -359,10 +373,18 @@ public class AgencyWindow extends JFrame implements ActionListener {
                 .filter(pack -> pack.getDestination().getName().equals(destination.getName()))
                 .collect(Collectors.toList());
         packageController.clearLinksWithUsers(packages);
-        this.destinationController.deleteDestination(destination.getId());
 
-        updateDestinationTable();
-        updatePackageTable();
+        String result = this.destinationController.deleteDestination(destination.getId());
+
+        if (result.isEmpty()) {
+            updateDestinationTable();
+            updatePackageTable();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    result,
+                    "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public void addPackage() {
@@ -412,8 +434,16 @@ public class AgencyWindow extends JFrame implements ActionListener {
         VacationPackage vacationPackage = new VacationPackage(name, price, start, end,
                 packageExtraDetailsText.getText(), bookings, destination);
 
-        this.packageController.insertPackage(vacationPackage);
-        updatePackageTable();
+        String result = this.packageController.insertPackage(vacationPackage);
+
+        if (result.isEmpty())
+            updatePackageTable();
+        else {
+            JOptionPane.showMessageDialog(this,
+                     result,
+                    "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public void deletePackage() {
@@ -432,6 +462,7 @@ public class AgencyWindow extends JFrame implements ActionListener {
         List<VacationPackage> packageWrapped = new ArrayList<>();
         packageWrapped.add(vacationPackage);
         packageController.clearLinksWithUsers(packageWrapped);
+
         this.packageController.deletePackage(vacationPackage.getId());
         updatePackageTable();
     }
@@ -568,8 +599,16 @@ public class AgencyWindow extends JFrame implements ActionListener {
             vacationPackage.setDestination(destination);
         }
 
-        this.packageController.updatePackage(vacationPackage);
-        updatePackageTable();
+        String result = this.packageController.updatePackage(vacationPackage);
+
+        if (result.isEmpty())
+            updatePackageTable();
+        else {
+            JOptionPane.showMessageDialog(this,
+                    result,
+                    "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     @Override
@@ -581,7 +620,7 @@ public class AgencyWindow extends JFrame implements ActionListener {
                 addDestination();
                 break;
             case "delete_destination":
-                deleteDestination(); // TODO: solve bug - DELETES ALSO THE USERS
+                deleteDestination();
                 break;
             case "add_package":
                 addPackage();

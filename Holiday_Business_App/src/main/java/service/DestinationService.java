@@ -14,11 +14,11 @@ public class DestinationService {
         this.destinationRepository = new DestinationRepository();
     }
 
-    public void insertDestination(Destination destination) {
+    public String insertDestination(Destination destination) {
         if (destination.getName() != null && !destination.getName().isEmpty())
-            this.destinationRepository.insertDestination(destination);
+            return this.destinationRepository.insertDestination(destination);
         else
-            System.out.println("ERROR insert destination: name empty or null");
+           return "ERROR insert destination: name empty or null";
     }
 
     public boolean deleteDestination(Integer destinationId) {

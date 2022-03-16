@@ -27,7 +27,7 @@ public class PackageRepository {
         em.clear();
     }
 
-    public void insert(VacationPackage vacationPackage) {
+    public String insert(VacationPackage vacationPackage) {
         EntityManager em = getEntityManager();
 
         em.getTransaction().begin();
@@ -37,18 +37,23 @@ public class PackageRepository {
             em.getTransaction().commit();
         } catch (RollbackException e) {
             System.out.println("ERROR insert package repo: not unique package");
+            return "The name of the pack is already used!";
         }
 
         em.close();
+
+        return "";
     }
 
-    public void update(VacationPackage vacationPackage) {
+    public String update(VacationPackage vacationPackage) {
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
 
         em.merge(vacationPackage);
         em.getTransaction().commit();
         em.close();
+
+        return "";
     }
 
     public boolean delete(Integer id) {

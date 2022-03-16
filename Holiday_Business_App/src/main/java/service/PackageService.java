@@ -65,23 +65,26 @@ public class PackageService {
         return "";
     }
 
-    public void insertPackage(VacationPackage vacationPackage) {
+    public String insertPackage(VacationPackage vacationPackage) {
 
         String errorMessage = this.validatePackage(vacationPackage);
         if (errorMessage.isEmpty()) {
-            this.packageRepository.insert(vacationPackage);
+            return this.packageRepository.insert(vacationPackage);
         } else {
             System.out.println("ERROR insert package: " + errorMessage);
+            return errorMessage;
         }
     }
 
-    public void updatePackage(VacationPackage vacationPackage) {
-        if (vacationPackage == null) {
-            System.out.println("ERROR package service update: provided null package");
-            return;
-        }
+    public String updatePackage(VacationPackage vacationPackage) {
 
-        this.packageRepository.update(vacationPackage);
+        String errorMessage = this.validatePackage(vacationPackage);
+        if (errorMessage.isEmpty()) {
+            return this.packageRepository.update(vacationPackage);
+        } else {
+            System.out.println("ERROR insert package: " + errorMessage);
+            return errorMessage;
+        }
     }
 
     public void deletePackage(Integer id) {

@@ -15,13 +15,13 @@ public class PackageController {
         this.packageService = new PackageService();
     }
 
-    public void insertPackage(VacationPackage vacationPackage) {
+    public String insertPackage(VacationPackage vacationPackage) {
 
-        this.packageService.insertPackage(vacationPackage);
+        return this.packageService.insertPackage(vacationPackage);
     }
 
-    public void updatePackage(VacationPackage vacationPackage) {
-        this.packageService.updatePackage(vacationPackage);
+    public String updatePackage(VacationPackage vacationPackage) {
+        return this.packageService.updatePackage(vacationPackage);
     }
 
     public void deletePackage(Integer id) {
