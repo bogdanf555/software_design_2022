@@ -482,7 +482,7 @@ public class AgencyWindow extends JFrame implements ActionListener {
             }
 
             if (bookings > 0 && bookings >= vacationPackage.getBookings()) {
-                vacationPackage.setBookings(bookings);
+                vacationPackage.setMaximumBookings(bookings);
             } else {
                 JOptionPane.showMessageDialog(this,
                         "The provided bookings number is lower that the already booked vacations: "
