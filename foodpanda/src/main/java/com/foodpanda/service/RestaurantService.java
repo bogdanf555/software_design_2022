@@ -2,6 +2,7 @@ package com.foodpanda.service;
 
 import com.foodpanda.common.RestaurantDTO;
 import com.foodpanda.mappers.RestaurantMapper;
+import com.foodpanda.mappers.UserMapper;
 import com.foodpanda.model.Restaurant;
 import com.foodpanda.model.User;
 import com.foodpanda.repository.RestaurantRepository;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class RestaurantService {
+public abstract class RestaurantService {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
@@ -51,5 +52,25 @@ public class RestaurantService {
         restaurantRepository.save(restaurant);
 
         return "";
+    }
+
+    public RestaurantDTO fetchRestaurant(String adminName) {
+
+        User admin = userRepository.findUserByUsername(adminName).orElse(null);
+
+        if (admin == null)
+            return null;
+
+        String response = UserValidator.getInstance().validateAdmin(admin);
+
+        if (!response.isEmpty())
+            return null;
+
+        Restaurant restaurant = restaurantRepository.findRestaurantByAdmin(admin).orElse(null);
+
+        if (restaurant == null)
+            return null;
+
+        return RestaurantMapper.getInstance().convertToDTO(restaurant);
     }
 }

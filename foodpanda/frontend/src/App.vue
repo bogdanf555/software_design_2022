@@ -34,7 +34,7 @@ export default {
 
   computed: {
     sendProps: function() {
-        if(this.currentComponent === 'UserRestaurantsComponent') {
+        if(this.currentComponent === 'UserRestaurantsComponent' || this.currentComponent === 'AdminPageComponent') {
           return {user: this.user}
         } else if (this.currentComponent === 'UserMenuComponent') {
           return {user: this.user, restaurant: this.restaurant}

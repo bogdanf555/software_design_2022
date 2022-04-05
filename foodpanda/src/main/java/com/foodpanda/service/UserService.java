@@ -15,7 +15,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 @Service
-public class UserService {
+public abstract class UserService {
 
     @Autowired
     public UserRepository userRepository;

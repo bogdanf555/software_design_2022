@@ -23,7 +23,7 @@ public class Iterator<T> {
     }
 
     public boolean hasNext() {
-        return index < listSize - 1;
+        return index < listSize;
     }
 
     public T get() {
@@ -34,11 +34,8 @@ public class Iterator<T> {
     }
 
     public T next() {
-
-        if (!hasNext())
-            return null;
-
+        T t =  get();
         index++;
-        return get();
+        return t;
     }
 }

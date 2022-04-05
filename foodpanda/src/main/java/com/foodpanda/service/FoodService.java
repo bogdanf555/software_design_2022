@@ -37,7 +37,7 @@ public class FoodService {
         food.setRestaurant(restaurant);
         foodRepository.save(food);
 
-        return "the food " + food.getName() + " was added successfully to restaurant " + restaurantName;
+        return "";
     }
 
     public List<FoodDTO> fetchAllByCategory(String restaurantName, FoodCategory category) {

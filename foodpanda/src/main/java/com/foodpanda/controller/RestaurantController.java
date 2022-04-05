@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value="/restaurant")
-public class RestaurantController {
+public class RestaurantController{
 
     @Autowired
     private RestaurantService restaurantService;
@@ -20,6 +20,11 @@ public class RestaurantController {
     @RequestMapping(value = "/fetch/all")
     public List<RestaurantDTO> fetchAll() {
         return restaurantService.fetchAll();}
+
+    @RequestMapping(value = "/fetch/{adminName}")
+    public RestaurantDTO fetchRestaurant(@PathVariable String adminName) {
+        return restaurantService.fetchRestaurant(adminName);
+    }
 
     @PostMapping("/insert/{adminName}")
     public ResponseEntity<String> insertRestaurant(@PathVariable String adminName, @RequestBody Restaurant restaurant) {

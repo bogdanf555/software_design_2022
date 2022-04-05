@@ -2,6 +2,7 @@ package com.foodpanda.mappers;
 
 import com.foodpanda.common.FoodDTO;
 import com.foodpanda.model.Food;
+import com.foodpanda.utils.Iterator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +52,10 @@ public class FoodMapper {
 
         List<FoodDTO> foodDTOS = new ArrayList<>();
 
-        for(Food food: foods) {
-            foodDTOS.add(this.convertToDTO(food));
+        Iterator<Food> foodIterator = new Iterator<Food>(foods);
+
+        while(foodIterator.hasNext()) {
+            foodDTOS.add(this.convertToDTO(foodIterator.next()));
         }
 
         if (foodDTOS.isEmpty())

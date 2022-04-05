@@ -3,6 +3,8 @@
 
     <p> You can find us at: <b> {{restaurant.location}} </b> </p>
 
+    <button v-on:click="goBack()">Go Back</button>
+
     <h3> Browse Menu: </h3>
 
     <div v-for="category in categories" v-bind:key="category">
@@ -15,6 +17,7 @@
         </p>
     </div>
     
+    
 </template>
 
 <script>
@@ -24,6 +27,7 @@ import axios from 'axios'
 export default {
     name: "UserMenuComponent",
     props: ['restaurant', 'user'],
+
     data() {
         return {
             foods: [],
@@ -40,11 +44,17 @@ export default {
                     if(!this.categories.includes(food.foodCategory))
                         this.categories.push(food.foodCategory)
                 })
-            }).catch(error => alert(error))
+            })
     },
     methods: {
         filterFoods(foods, category) {
             return this.foods.filter(food => food.foodCategory == category)
+        },
+
+        goBack() {
+            console.log("go back")
+            this.$emit("passUser", this.user)
+            this.$emit("changeComponent", "UserRestaurantsComponent")
         }
     }
 }
