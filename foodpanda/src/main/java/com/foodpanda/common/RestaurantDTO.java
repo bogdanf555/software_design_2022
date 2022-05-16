@@ -9,6 +9,11 @@ public class RestaurantDTO {
 
     }
 
+    public RestaurantDTO(String name, String location) {
+        this.name = name;
+        this.location = location;
+    }
+
     public String getName() {
         return name;
     }

@@ -23,6 +23,7 @@
 <script>
 
 import axios from "axios"
+import jwt_decode from 'jwt-decode';
 
 export default {
   name: 'RegisterComponent',
@@ -49,14 +50,21 @@ export default {
         axios.post("http://localhost:8080/foodpanda/user/register", this.user)
             .then(response => {
                 
-                if (response.data != "") {
+                let token_decoded = jwt_decode(response.data)
+
+                if (token_decoded.response != "") {
                     this.error_message = response.data 
                     return;
                 }
 
                 this.error_message = ""
 
-                this.userInfo = {"username": this.user.username, "fullName": this.user.fullName, "role": this.user.role}
+                this.userInfo = {
+                    "username": this.user.username, 
+                    "fullName": this.user.fullName, 
+                    "role": this.user.role,
+                    "token": response.data
+                }
 
                 this.$emit("passUser", this.userInfo)
 

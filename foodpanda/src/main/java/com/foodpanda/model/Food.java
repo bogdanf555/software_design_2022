@@ -34,6 +34,11 @@ public class Food {
 
     }
 
+    public Food(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     public Food(String name, String description, Double price, FoodCategory category) {
         this.name = name;
         this.description = description;

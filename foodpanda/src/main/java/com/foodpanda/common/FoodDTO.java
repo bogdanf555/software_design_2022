@@ -5,7 +5,7 @@ import com.foodpanda.utils.FoodCategory;
 public class FoodDTO {
 
     private String name;
-    private String Description;
+    private String description;
     private Double price;
     private FoodCategory foodCategory;
 
@@ -18,11 +18,11 @@ public class FoodDTO {
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public Double getPrice() {
@@ -39,5 +39,13 @@ public class FoodDTO {
 
     public void setFoodCategory(FoodCategory foodCategory) {
         this.foodCategory = foodCategory;
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + name +
+                ", Price: " + price +
+                ", Category: " + foodCategory.toString() +
+                ", Description: " + description;
     }
 }

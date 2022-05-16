@@ -36,6 +36,11 @@ public class Restaurant {
     public Restaurant () {
     }
 
+    public Restaurant(String name, String location) {
+        this.name = name;
+        this.location = location;
+    }
+
     public Integer getId() {
         return id;
     }

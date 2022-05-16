@@ -14,6 +14,7 @@
 <script>
 
 import axios from "axios"
+import jwt_decode from 'jwt-decode';
 
 export default {
   name: 'LoginComponent',
@@ -27,6 +28,7 @@ export default {
               password: "",
           },
           user: null,
+          token: null,
           error_message: ""
       }
   },
@@ -36,13 +38,15 @@ export default {
 
         axios.post("http://localhost:8080/foodpanda/user/login", this.login)
             .then(response => {
-                this.user = response.data;
                 
-                if (this.user.username == undefined) {
+                if (response.data == "") {
                     this.user = undefined
                     this.error_message = "Login failed!";
                     return;
                 }
+
+                this.user = jwt_decode(response.data);
+                this.user.token = response.data
                 
                 this.error_message = ""
 

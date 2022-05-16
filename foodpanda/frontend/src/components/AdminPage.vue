@@ -41,6 +41,8 @@
         <div>
             <h1> Menu </h1>
 
+            <button v-on:click="exportMenuAsPdf()"> Export as PDF </button>
+
             <label for="categories">Choose a category:</label>
 
             <select v-model="selectedCategory" @change="filterCategories()" name="categories" id="categories">
@@ -98,7 +100,9 @@ export default {
 
     methods: {
         register_restaurant() {
-            axios.post("http://localhost:8080/foodpanda/restaurant/insert/" + this.user.username, this.restaurant)
+            axios.post("http://localhost:8080/foodpanda/restaurant/insert/", 
+                            this.restaurant, 
+                            {headers:{"token": this.user.token}})
                 .then(response =>  {
                     if (response.data == "") {
                         this.error_message = ""
@@ -107,6 +111,29 @@ export default {
                     } else {
                         this.error_message = response.data
                     }
+                })
+        },
+
+        exportMenuAsPdf() {
+            axios(
+                {
+                    url: ('http://localhost:8080/foodpanda/restaurant/pdf/'),
+                    method: 'GET',
+                    responseType: 'blob',
+                    headers:{"token": this.user.token}
+                })
+                .then(response =>  {
+                    console.log(response)
+
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'menu.pdf'); //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+                })
+                    .catch(error => {
+                    alert(error)
                 })
         },
 
@@ -132,7 +159,7 @@ export default {
                 return;
             }
 
-            axios.post("http://localhost:8080/foodpanda/food/insert/" + this.restaurant.name, this.addedFood)
+            axios.post("http://localhost:8080/foodpanda/food/insert/" + this.restaurant.name, this.addedFood, {headers:{"token": this.user.token}})
                 .then(response => {
                     if (response.data != "") {
                         console.log(response.data)
@@ -151,7 +178,7 @@ export default {
         },
 
         fromBeforeMount() {
-             axios.get("http://localhost:8080/foodpanda/restaurant/fetch/" + this.user.username)
+             axios.get("http://localhost:8080/foodpanda/restaurant/fetch/", {headers:{"token": this.user.token}})
             .then(response => {
                 if(response.data == undefined || response.data == null || response.data == "")
                     this.hasRestaurant = false
@@ -159,7 +186,7 @@ export default {
                     this.hasRestaurant = true
                     this.restaurant = response.data
 
-                    axios.get("http://localhost:8080/foodpanda/food/fetch/all/" + this.restaurant.name)
+                    axios.get("http://localhost:8080/foodpanda/food/fetch/all/" + this.restaurant.name, {headers:{"token": this.user.token}})
                         .then(response => {
                             this.foods = response.data
 

@@ -26,7 +26,7 @@ export default {
         console.log(this.user)
 
 
-        axios.get("http://localhost:8080/foodpanda/restaurant/fetch/all")
+        axios.get("http://localhost:8080/foodpanda/restaurant/fetch/all", {headers: {"token": this.user.token}})
             .then(response =>  {
                 this.restaurants = response.data
                 console.log(this.restaurants)
@@ -38,6 +38,8 @@ export default {
 
     methods: {
         open_menu(restaurant) {
+            restaurant.token = this.user.token
+            console.log(restaurant.token)
             this.$emit("passRestaurant", restaurant)
             this.$emit("changeComponent", "UserMenuComponent")
         }

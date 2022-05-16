@@ -3,7 +3,6 @@ import com.foodpanda.utils.OrderStatus;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "order")

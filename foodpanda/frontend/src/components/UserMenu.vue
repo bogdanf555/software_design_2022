@@ -35,7 +35,8 @@ export default {
         }
     },
     beforeMount() {
-        axios.get("http://localhost:8080/foodpanda/food/fetch/all/" + this.restaurant.name)
+        console.log(this.restaurant.token)
+        axios.get("http://localhost:8080/foodpanda/food/fetch/all/" + this.restaurant.name, {headers:{"token": this.restaurant.token}})
             .then(response => {
                 this.foods = response.data
 
